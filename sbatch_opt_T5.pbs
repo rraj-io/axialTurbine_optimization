@@ -1,0 +1,25 @@
+#!/bin/sh
+
+#PBS -l walltime=48:00:00
+#PBS -l nodes=pelton.ihs.uni-stuttgart.de:ppn=32
+
+# go to submit directory
+cd $PBS_O_WORKDIR
+
+# load OpenFOAM000
+#module load cae/openfoam/v2206
+#source $FOAM_INIT
+#. openfoam of_v2406_15.6
+. dtoo of_v2406_15.6
+source /mnt/scratch/rraj/venvs/py311/bin/activate
+
+export OSLO_LOCK_PATH=~/tmp
+
+
+export FOAM_SIGFPE=false
+
+python3.11 opt_build.py > output.log
+
+touch optimization.finished
+
+deactivate
